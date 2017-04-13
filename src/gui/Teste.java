@@ -5,10 +5,7 @@
  */
 package gui;
 
-import com.sun.javafx.cursor.CursorFrame;
 import java.awt.Color;
-import javafx.scene.Cursor;
-import static javafx.scene.Cursor.*;
 
 /**
  *
@@ -23,6 +20,7 @@ public class Teste extends javax.swing.JFrame {
 
     public Teste() {
         initComponents();
+        conteudoGeral.setVisible(false);
     }
 
     /**
@@ -45,9 +43,9 @@ public class Teste extends javax.swing.JFrame {
         menuFuncionarios = new javax.swing.JPanel();
         txtMenuFuncionarios = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        conteudoPanel = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanel1 = new javax.swing.JPanel();
+        conteudoGeral = new javax.swing.JPanel();
+        conteudoCarros = new javax.swing.JPanel();
+        menuFooter = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Locadora");
@@ -90,7 +88,7 @@ public class Teste extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 101;
+        gridBagConstraints.ipadx = 102;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.insets = new java.awt.Insets(0, 25, 0, 0);
         menuGeral.add(txtMenuGeral, gridBagConstraints);
@@ -124,7 +122,7 @@ public class Teste extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 89;
+        gridBagConstraints.ipadx = 90;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.insets = new java.awt.Insets(0, 25, 0, 0);
         menuCarros.add(txtMenuCarros, gridBagConstraints);
@@ -190,7 +188,7 @@ public class Teste extends javax.swing.JFrame {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
-        gridBagConstraints.ipadx = 25;
+        gridBagConstraints.ipadx = 26;
         gridBagConstraints.ipady = 15;
         gridBagConstraints.insets = new java.awt.Insets(0, 25, 0, 0);
         menuFuncionarios.add(txtMenuFuncionarios, gridBagConstraints);
@@ -212,29 +210,8 @@ public class Teste extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(menuPanel, gridBagConstraints);
 
-        conteudoPanel.setBackground(new java.awt.Color(204, 204, 0));
-        conteudoPanel.setLayout(new java.awt.GridBagLayout());
-
-        jPanel2.setForeground(new java.awt.Color(204, 204, 204));
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        conteudoPanel.add(jPanel2, gridBagConstraints);
-
+        conteudoGeral.setBackground(new java.awt.Color(0, 115, 170));
+        conteudoGeral.setLayout(new java.awt.GridBagLayout());
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -242,18 +219,29 @@ public class Teste extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.ipadx = 500;
         gridBagConstraints.ipady = 300;
-        getContentPane().add(conteudoPanel, gridBagConstraints);
+        getContentPane().add(conteudoGeral, gridBagConstraints);
 
-        jPanel1.setBackground(new java.awt.Color(102, 102, 102));
+        conteudoCarros.setBackground(new java.awt.Color(241, 241, 241));
+        conteudoCarros.setLayout(new java.awt.GridBagLayout());
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 500;
+        gridBagConstraints.ipady = 300;
+        getContentPane().add(conteudoCarros, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        menuFooter.setBackground(new java.awt.Color(58, 58, 58));
+
+        javax.swing.GroupLayout menuFooterLayout = new javax.swing.GroupLayout(menuFooter);
+        menuFooter.setLayout(menuFooterLayout);
+        menuFooterLayout.setHorizontalGroup(
+            menuFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        menuFooterLayout.setVerticalGroup(
+            menuFooterLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 0, Short.MAX_VALUE)
         );
 
@@ -261,7 +249,8 @@ public class Teste extends javax.swing.JFrame {
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        getContentPane().add(jPanel1, gridBagConstraints);
+        gridBagConstraints.ipady = 80;
+        getContentPane().add(menuFooter, gridBagConstraints);
 
         pack();
         setLocationRelativeTo(null);
@@ -301,6 +290,7 @@ public class Teste extends javax.swing.JFrame {
         menuCarros.setBackground(new Color(0x0073aa));
         txtMenuCarros.setForeground(new Color(0xffffff));
         clicked2 = true;
+        conteudoCarros.setVisible(true);
     }//GEN-LAST:event_menuCarrosMouseClicked
 
     private void menuClientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuClientesMouseClicked
@@ -335,7 +325,9 @@ public class Teste extends javax.swing.JFrame {
         falseAll();
         menuGeral.setBackground(new Color(0x0073aa));
         txtMenuGeral.setForeground(new Color(0xffffff));
-        clicked1 = true;// TODO add your handling code here:
+        clicked1 = true;
+        conteudoGeral.setVisible(true);
+// TODO add your handling code here:
     }//GEN-LAST:event_menuGeralMouseClicked
 
     private void menuGeralMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuGeralMouseEntered
@@ -357,6 +349,7 @@ public class Teste extends javax.swing.JFrame {
         menuGeral.setBackground(new Color(0x0073aa));
         txtMenuGeral.setForeground(new Color(0xffffff));
         clicked1 = true;
+        conteudoGeral.setVisible(true);
     }//GEN-LAST:event_txtMenuGeralMouseClicked
 
     private void txtMenuGeralMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtMenuGeralMouseEntered
@@ -385,7 +378,9 @@ public class Teste extends javax.swing.JFrame {
 
         menuFuncionarios.setBackground(new Color(0x23282d));
         txtMenuFuncionarios.setForeground(new Color(0xffffff));
-
+        
+        conteudoGeral.setVisible(false);
+        conteudoCarros.setVisible(false);
         clicked1 = false;
         clicked2 = false;
         clicked3 = false;
@@ -428,12 +423,12 @@ public class Teste extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPanel conteudoPanel;
+    private javax.swing.JPanel conteudoCarros;
+    private javax.swing.JPanel conteudoGeral;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel menuCarros;
     private javax.swing.JPanel menuClientes;
+    private javax.swing.JPanel menuFooter;
     private javax.swing.JPanel menuFuncionarios;
     private javax.swing.JPanel menuGeral;
     private javax.swing.JPanel menuPanel;
