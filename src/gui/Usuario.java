@@ -7,27 +7,42 @@ package gui;
 
 import java.awt.Color;
 import java.util.Arrays;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author lavyk
  */
-public class CriarUsuario extends javax.swing.JFrame {
+public class Usuario extends javax.swing.JFrame {
 
     /**
      * Creates new form CriarUsuario
      */
-    String nomeLocadora;
-    long capital;
-    
-    public CriarUsuario() {
+    private String nome;
+    private char[] senha;
+
+    public Usuario() {
         initComponents();
-        
+
     }
-    public void dados(String nomeLocadora, long capital){
-        this.nomeLocadora = nomeLocadora;
-        this.capital = capital;
+
+    public String getNome() {
+        return nome;
     }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public char[] getSenha() {
+        return senha;
+    }
+
+    public void setSenha(char[] senha) {
+        this.senha = senha;
+    }
+
+    char[] pass1, pass2;
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,7 +59,7 @@ public class CriarUsuario extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         panelForm = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        userForm = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         passForm = new javax.swing.JPasswordField();
         jLabel4 = new javax.swing.JLabel();
@@ -56,9 +71,11 @@ public class CriarUsuario extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Criar usuário");
+        setUndecorated(true);
         setResizable(false);
 
         jPanel3.setBackground(new java.awt.Color(35, 40, 45));
+        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
         jPanel3.setLayout(new java.awt.GridBagLayout());
 
         jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
@@ -71,7 +88,7 @@ public class CriarUsuario extends javax.swing.JFrame {
             .addGroup(panelTituloLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(111, Short.MAX_VALUE))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         panelTituloLayout.setVerticalGroup(
             panelTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -101,9 +118,9 @@ public class CriarUsuario extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         panelForm.add(jLabel2, gridBagConstraints);
 
-        userForm.addFocusListener(new java.awt.event.FocusAdapter() {
+        txtNome.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
-                userFormFocusGained(evt);
+                txtNomeFocusGained(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -112,7 +129,7 @@ public class CriarUsuario extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.ipadx = 76;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        panelForm.add(userForm, gridBagConstraints);
+        panelForm.add(txtNome, gridBagConstraints);
 
         jLabel3.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(254, 254, 254));
@@ -180,6 +197,11 @@ public class CriarUsuario extends javax.swing.JFrame {
         panelBotoes.setLayout(new java.awt.GridBagLayout());
 
         jButton1.setText("Criar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -187,6 +209,11 @@ public class CriarUsuario extends javax.swing.JFrame {
         panelBotoes.add(jButton1, gridBagConstraints);
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 1;
         gridBagConstraints.gridy = 0;
@@ -228,8 +255,8 @@ public class CriarUsuario extends javax.swing.JFrame {
     private void passFormFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passFormFocusGained
         String pass = passForm.getText();
         passForm.setText("");
-        char[] pass1 = passForm.getPassword();
-        char[] pass2 = passFormConfirm.getPassword();
+        pass1 = passForm.getPassword();
+        pass2 = passFormConfirm.getPassword();
         if (verificarPasswords(pass1, pass2) == true) {
             confirmSenha.setForeground(Color.green);
         } else {
@@ -238,15 +265,15 @@ public class CriarUsuario extends javax.swing.JFrame {
 
     }//GEN-LAST:event_passFormFocusGained
 
-    private void userFormFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_userFormFocusGained
+    private void txtNomeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNomeFocusGained
         // TODO add your handling code here:
-    }//GEN-LAST:event_userFormFocusGained
+    }//GEN-LAST:event_txtNomeFocusGained
 
     private void passFormConfirmFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passFormConfirmFocusGained
 
         passFormConfirm.setText("");
-        char[] pass1 = passForm.getPassword();
-        char[] pass2 = passFormConfirm.getPassword();
+        pass1 = passForm.getPassword();
+        pass2 = passFormConfirm.getPassword();
         if (verificarPasswords(pass1, pass2) == true) {
             confirmSenha.setForeground(Color.green);
         } else {
@@ -260,8 +287,8 @@ public class CriarUsuario extends javax.swing.JFrame {
     }//GEN-LAST:event_passFormConfirmKeyTyped
 
     private void passFormConfirmKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passFormConfirmKeyReleased
-        char[] pass1 = passForm.getPassword();
-        char[] pass2 = passFormConfirm.getPassword();
+        pass1 = passForm.getPassword();
+        pass2 = passFormConfirm.getPassword();
         if (verificarPasswords(pass1, pass2) == true) {
             confirmSenha.setForeground(Color.green);
         } else {
@@ -269,11 +296,43 @@ public class CriarUsuario extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_passFormConfirmKeyReleased
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String nome = txtNome.getText();
+        pass1 = passForm.getPassword();
+        pass2 = passFormConfirm.getPassword();
+        if (verificarPasswords(pass1, pass2) && verificarNome() == true) {
+            this.setNome(nome);
+            this.setSenha(pass1);
+            dispose();
+            new Teste().setVisible(true);
+        } else if (passForm.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "A senha não pode ficar em branco!");
+        } else if (!verificarPasswords(pass1, pass2)) {
+            JOptionPane.showMessageDialog(null, "As senhas não correspondem!");
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     public boolean verificarPasswords(char[] pass1, char[] pass2) {
-        if (Arrays.equals(pass1, pass2)) {
+        if (passForm.getText().isEmpty() || passFormConfirm.getText().isEmpty()) {
+            return false;
+        } else if (Arrays.equals(pass1, pass2)) {
             return true;
         } else {
             return false;
+        }
+    }
+
+    public boolean verificarNome() {
+        String nome = txtNome.getText();
+        if (nome.isEmpty() || nome.contains(" ")) {
+            JOptionPane.showMessageDialog(null, "O nome do usuário não pode ficar em branco ou ter espaços!");
+            return false;
+        } else {
+            return true;
         }
     }
 
@@ -284,7 +343,7 @@ public class CriarUsuario extends javax.swing.JFrame {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
          */
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -294,20 +353,21 @@ public class CriarUsuario extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CriarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CriarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CriarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CriarUsuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Usuario.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CriarUsuario().setVisible(true);
+                new Usuario().setVisible(true);
             }
         });
     }
@@ -326,6 +386,6 @@ public class CriarUsuario extends javax.swing.JFrame {
     private javax.swing.JPanel panelTitulo;
     private javax.swing.JPasswordField passForm;
     private javax.swing.JPasswordField passFormConfirm;
-    private javax.swing.JTextField userForm;
+    private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 }

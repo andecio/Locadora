@@ -15,7 +15,7 @@ import java.sql.SQLException;
 public class Main {
 
     public static void main(String[] args) throws SQLException, IOException {
-        Locadora a = new Locadora("Locadora MASSA", 1500);
+        NormalLocadora a = new NormalLocadora("Locadora MASSA", 1500);
         a.setNome("Locadora LAB");
         System.out.println(a.getNome());
         

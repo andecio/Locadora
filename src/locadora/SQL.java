@@ -21,9 +21,9 @@ public class SQL {
         File file = new File("locadoraDB.db");
 
         if (!file.exists()) {
-            NovaLocadora formNovaLocadora = new NovaLocadora();
+            Locadora formNovaLocadora = new Locadora();
             formNovaLocadora.setVisible(true);
-            
+            createDB();
             System.out.println("Locadora não configurada.");
         } else {
             System.out.append("Locadora configurada");
@@ -39,11 +39,5 @@ public class SQL {
             System.exit(0);
         }
         System.out.println("Opened database successfully");
-    }
-    
-    public static void main(String[] args){
-            SQL a = new SQL();
-            
-        
     }
 }

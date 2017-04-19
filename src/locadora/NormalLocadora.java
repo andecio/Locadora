@@ -2,7 +2,7 @@ package locadora;
 
 import java.sql.*;
 
-public class Locadora {
+public class NormalLocadora {
 
     private String nome;
     private int numCarros, numFuncionarios;
@@ -10,7 +10,7 @@ public class Locadora {
 
     ConectarDB bancoDeDados = new ConectarDB();
 
-    public Locadora(String nome, double capital) {
+    public NormalLocadora(String nome, double capital) {
         this.setNome(nome);
         this.setCapital(capital);
     }

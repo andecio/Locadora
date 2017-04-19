@@ -5,20 +5,39 @@
  */
 package gui;
 
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Super i3
  */
-public class NovaLocadora extends javax.swing.JFrame{
+public class Locadora extends javax.swing.JFrame {
 
-    
-    
     /**
      * Creates new form Main
      */
-    public NovaLocadora() {
+    private String nome;
+    private long capital;
+
+    public Locadora() {
         initComponents();
-        
+
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public long getCapital() {
+        return capital;
+    }
+
+    public void setCapital(long capital) {
+        this.capital = capital;
     }
 
     /**
@@ -44,9 +63,12 @@ public class NovaLocadora extends javax.swing.JFrame{
         btnSalvar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setUndecorated(true);
+        setResizable(false);
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         jPanel2.setBackground(new java.awt.Color(35, 40, 45));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 3));
         jPanel2.setLayout(new java.awt.GridBagLayout());
 
         panelTitulo.setBackground(new java.awt.Color(241, 241, 241));
@@ -105,6 +127,12 @@ public class NovaLocadora extends javax.swing.JFrame{
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         panelForm.add(jLabel3, gridBagConstraints);
+
+        txtNome.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtNomeActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -170,9 +198,35 @@ public class NovaLocadora extends javax.swing.JFrame{
     }//GEN-LAST:event_btnCancelarActionPerformed
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
-        long a = Integer.valueOf(txtCapital.getText());
-        
+        if (verificarCampos()) {
+            long capital = Long.valueOf(txtCapital.getText()).longValue();
+            this.setNome(txtNome.getText());
+            this.setCapital(capital);
+            dispose();
+            new Usuario().setVisible(true);
+        }
     }//GEN-LAST:event_btnSalvarActionPerformed
+
+    private void txtNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNomeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txtNomeActionPerformed
+
+    public boolean verificarCampos() {
+
+        if (txtNome.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O nome da locadora não pode ficar em branco!");
+            txtNome.requestFocus();
+            return false;
+        } else if (txtCapital.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "O capital da locadora não pode ficar em branco!");
+            txtCapital.requestFocus();
+            return false;
+        } else if (!txtNome.getText().isEmpty() && !txtCapital.getText().isEmpty()) {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * @param args the command line arguments
@@ -191,21 +245,23 @@ public class NovaLocadora extends javax.swing.JFrame{
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NovaLocadora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Locadora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NovaLocadora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Locadora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NovaLocadora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Locadora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NovaLocadora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Locadora.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new NovaLocadora().setVisible(true);
+                new Locadora().setVisible(true);
             }
         });
     }

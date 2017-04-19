@@ -10,11 +10,14 @@ package gui;
  * @author lavyk
  */
 public class CriarLocadoraConfigs {
+
     String nome;
     long capital;
     String usuario;
     char[] senha;
-    
+
+    Locadora locadora = new Locadora();
+
     public String getNome() {
         return nome;
     }
@@ -46,8 +49,8 @@ public class CriarLocadoraConfigs {
     public void setSenha(char[] senha) {
         this.senha = senha;
     }
-    
-    public static void main(String[] args){
-        
+
+    public static void main(String[] args) {
+
     }
 }
