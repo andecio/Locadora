@@ -9,13 +9,16 @@ package gui;
  *
  * @author Super i3
  */
-public class NovaLocadora extends javax.swing.JFrame {
+public class NovaLocadora extends javax.swing.JFrame{
 
+    
+    
     /**
      * Creates new form Main
      */
     public NovaLocadora() {
         initComponents();
+        
     }
 
     /**
@@ -32,10 +35,10 @@ public class NovaLocadora extends javax.swing.JFrame {
         panelTitulo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         panelForm = new javax.swing.JPanel();
-        jTextField1 = new javax.swing.JTextField();
+        txtCapital = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtNome = new javax.swing.JTextField();
         panelBotoes = new javax.swing.JPanel();
         btnCancelar = new javax.swing.JButton();
         btnSalvar = new javax.swing.JButton();
@@ -82,7 +85,7 @@ public class NovaLocadora extends javax.swing.JFrame {
         gridBagConstraints.ipadx = 100;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(0, 0, 15, 0);
-        panelForm.add(jTextField1, gridBagConstraints);
+        panelForm.add(txtCapital, gridBagConstraints);
 
         jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(254, 254, 254));
@@ -107,7 +110,7 @@ public class NovaLocadora extends javax.swing.JFrame {
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 300;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        panelForm.add(jTextField2, gridBagConstraints);
+        panelForm.add(txtNome, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -134,6 +137,11 @@ public class NovaLocadora extends javax.swing.JFrame {
         panelBotoes.add(btnCancelar, gridBagConstraints);
 
         btnSalvar.setText("Salvar");
+        btnSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSalvarActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -160,6 +168,11 @@ public class NovaLocadora extends javax.swing.JFrame {
         // TODO add your handling code here:
         System.exit(0);
     }//GEN-LAST:event_btnCancelarActionPerformed
+
+    private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
+        long a = Integer.valueOf(txtCapital.getText());
+        
+    }//GEN-LAST:event_btnSalvarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -204,10 +217,10 @@ public class NovaLocadora extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JPanel panelBotoes;
     private javax.swing.JPanel panelForm;
     private javax.swing.JPanel panelTitulo;
+    private javax.swing.JTextField txtCapital;
+    private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
 }
