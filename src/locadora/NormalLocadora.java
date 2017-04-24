@@ -22,7 +22,7 @@ public class NormalLocadora {
 
     public void setNome(String nome) {
         this.nome = nome;
-        bancoDeDados.update("locadora", "nome", nome);
+        bancoDeDados.update("locadora", "nome", nome, 1);
     }
 
     public int getNumCarros() {
@@ -31,7 +31,7 @@ public class NormalLocadora {
 
     public void setNumCarros(int numCarros) {
         this.numCarros = numCarros;
-        bancoDeDados.update("locadora", "numCarros", numCarros);
+        bancoDeDados.update("locadora", "numCarros", numCarros, 1);
     }
 
     public int getNumFuncionarios() {
@@ -40,7 +40,7 @@ public class NormalLocadora {
 
     public void setNumFuncionarios(int numFuncionarios) {
         this.numFuncionarios = numFuncionarios;
-        bancoDeDados.update("locadora", "numFuncionarios", numFuncionarios);
+        bancoDeDados.update("locadora", "numFuncionarios", numFuncionarios, 1);
     }
 
     public double getCapital() {
@@ -49,6 +49,6 @@ public class NormalLocadora {
 
     public void setCapital(double capital) {
         this.capital = capital;
-        bancoDeDados.update("locadora", "capital", capital);
+        bancoDeDados.update("locadora", "capital", capital, 1);
     }
 }

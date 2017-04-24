@@ -40,4 +40,8 @@ public class SQL {
         }
         System.out.println("Opened database successfully");
     }
+
+    public static void main(String[] args) {
+        SQL a = new SQL();
+    }
 }

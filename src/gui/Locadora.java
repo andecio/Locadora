@@ -6,6 +6,7 @@
 package gui;
 
 import javax.swing.JOptionPane;
+import locadora.ConectarDB;
 
 /**
  *
@@ -16,6 +17,7 @@ public class Locadora extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
+    ConectarDB conn = new ConectarDB();
     private String nome;
     private long capital;
 
@@ -202,6 +204,10 @@ public class Locadora extends javax.swing.JFrame {
             long capital = Long.valueOf(txtCapital.getText()).longValue();
             this.setNome(txtNome.getText());
             this.setCapital(capital);
+            String colunas = "nome TEXT NOT NULL, capital LONG NOT NULL";
+            conn.createTable("Locadora", colunas);
+            conn.insert("Locadora", "nome", this.getNome());
+            conn.update("Locadora", "capital", this.getCapital(), 1);
             dispose();
             new Usuario().setVisible(true);
         }
