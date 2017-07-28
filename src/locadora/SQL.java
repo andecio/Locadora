@@ -26,7 +26,9 @@ public class SQL {
             createDB();
             System.out.println("Locadora não configurada.");
         } else {
-            System.out.append("Locadora configurada");
+            System.out.append("Locadora configurada \n");
+            Login login = new Login();
+            login.setVisible(true);
         }
     }
 

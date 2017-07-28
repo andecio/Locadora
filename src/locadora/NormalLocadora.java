@@ -2,7 +2,7 @@ package locadora;
 
 import java.sql.*;
 
-public class NormalLocadora {
+public final class NormalLocadora {
 
     private String nome;
     private int numCarros, numFuncionarios;
@@ -15,7 +15,7 @@ public class NormalLocadora {
         this.setCapital(capital);
     }
 
-    public String getNome() {
+    public String getNome() throws SQLException {
         bancoDeDados.select("locadora", "nome");
         return nome;
     }

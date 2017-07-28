@@ -8,6 +8,7 @@ package gui;
 import java.awt.Color;
 import java.util.Arrays;
 import javax.swing.JOptionPane;
+import locadora.ConectarDB;
 
 /**
  *
@@ -301,13 +302,18 @@ public class Usuario extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        ConectarDB conn = new ConectarDB();
         String nome = txtNome.getText();
         pass1 = passForm.getPassword();
         pass2 = passFormConfirm.getPassword();
+        String strPass = passForm.getText();
         if (verificarPasswords(pass1, pass2) && verificarNome() == true) {
             this.setNome(nome);
             this.setSenha(pass1);
             dispose();
+            conn.createTableUser();
+            conn.insert("Users", "nome", nome);
+            conn.update("Users", "senha", strPass, 1);
             new Teste().setVisible(true);
         } else if (passForm.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "A senha não pode ficar em branco!");

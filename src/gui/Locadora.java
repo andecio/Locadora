@@ -17,7 +17,6 @@ public class Locadora extends javax.swing.JFrame {
     /**
      * Creates new form Main
      */
-    ConectarDB conn = new ConectarDB();
     private String nome;
     private long capital;
 
@@ -85,7 +84,7 @@ public class Locadora extends javax.swing.JFrame {
             .addGroup(panelTituloLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(96, Short.MAX_VALUE))
         );
         panelTituloLayout.setVerticalGroup(
             panelTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -201,13 +200,19 @@ public class Locadora extends javax.swing.JFrame {
 
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         if (verificarCampos()) {
+            ConectarDB conn = new ConectarDB();
             long capital = Long.valueOf(txtCapital.getText()).longValue();
             this.setNome(txtNome.getText());
             this.setCapital(capital);
-            String colunas = "nome TEXT NOT NULL, capital LONG NOT NULL";
+            String colunas = "ID INTEGER PRIMARY KEY AUTOINCREMENT,nome TEXT, capital INT, nCarros INT, nFuncionarios INT, nClientes INT, carrosAlugados INT";
             conn.createTable("Locadora", colunas);
             conn.insert("Locadora", "nome", this.getNome());
             conn.update("Locadora", "capital", this.getCapital(), 1);
+            conn.update("Locadora", "nCarros", 0, 1);
+            conn.update("Locadora", "nFuncionarios", 0, 1);
+            conn.update("Locadora", "nClientes", 0, 1);
+            conn.update("Locadora", "carrosAlugados", 0, 1);
+            conn.createTableCarros();
             dispose();
             new Usuario().setVisible(true);
         }
