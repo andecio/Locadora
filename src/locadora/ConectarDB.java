@@ -167,6 +167,8 @@ public class ConectarDB {
         }
 
     }
+    
+    
 
     public void insert(String tabela, String row, String data) {
         String sql = "INSERT INTO '" + tabela + "' (" + row + ") VALUES ( ? )";
@@ -248,5 +250,34 @@ public class ConectarDB {
             System.out.println(e.getMessage());
         }
         return 0;
+    }
+    
+    public Object[][] listaDeCarros() {
+        String sql = "SELECT * FROM Carros";
+        Object[][] lista = null;
+
+        try (Connection conn = this.connect();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+
+            // loop through the result set
+            String a = null;
+            int tamanho = this.ultimoID("Carros");
+            lista = new Object[tamanho][];
+            Object[] apoio = new Object[4];
+            while (rs.next()) {
+                apoio[0] = rs.getString("placa");
+                apoio[1] = rs.getString("marca");
+                apoio[2] = rs.getString("modelo");
+                apoio[3] = rs.getString("alugado");
+                lista[rs.getInt("id")-1] = apoio;
+            }
+            
+            return lista;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return lista;
     }
 }

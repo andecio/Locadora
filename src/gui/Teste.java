@@ -7,10 +7,14 @@ package gui;
 
 import java.awt.Color;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumn;
 import locadora.ConectarDB;
 
 /**
@@ -61,6 +65,27 @@ public class Teste extends javax.swing.JFrame {
         clicked1 = true;
         conteudoGeral.setVisible(true);
 
+        //DefaultTableModel model = (DefaultTableModel) tabelaCarros.getModel();
+        //Object[] linha = new Object[4];
+        // model.addRow(linha);
+        atualizarLista();
+    }
+    
+    public void atualizarLista(){
+        ConectarDB conn = new ConectarDB();
+        DefaultTableModel model = (DefaultTableModel) tabelaCarros.getModel();
+        Object[][] linha = conn.listaDeCarros();
+        System.out.println();
+        model.addRow(linha);
+        Object[] b = new Object[4];
+        if(linha.length > 0){
+            for(int i = 0; i < linha.length; i++){
+                for(int e = 0; e < 4; e++){
+                    b[e] = linha[i][e];
+                }
+                System.out.println(linha[0][2]);
+            }
+        }
     }
 
     public void dataEHora() {
@@ -90,6 +115,7 @@ public class Teste extends javax.swing.JFrame {
 
     ConectarDB db = new ConectarDB();
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -116,7 +142,7 @@ public class Teste extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tabelaCarros = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
         conteudoGeral = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -332,18 +358,37 @@ public class Teste extends javax.swing.JFrame {
             }
         });
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tabelaCarros.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-
+                "Placa", "Marca", "Modelo", "Alugado"
             }
-        ));
-        jTable1.setColumnSelectionAllowed(true);
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        jTable1.getColumnModel().getSelectionModel().setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabelaCarros.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(tabelaCarros);
+        if (tabelaCarros.getColumnModel().getColumnCount() > 0) {
+            tabelaCarros.getColumnModel().getColumn(0).setResizable(false);
+            tabelaCarros.getColumnModel().getColumn(1).setResizable(false);
+            tabelaCarros.getColumnModel().getColumn(2).setResizable(false);
+            tabelaCarros.getColumnModel().getColumn(3).setResizable(false);
+        }
 
         jButton2.setText("Atualizar lista");
 
@@ -1006,7 +1051,6 @@ public class Teste extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel menuCarros;
     private javax.swing.JPanel menuClientes;
     private javax.swing.JPanel menuFooter;
@@ -1019,6 +1063,7 @@ public class Teste extends javax.swing.JFrame {
     private javax.swing.JLabel receiveNumCarros;
     private javax.swing.JLabel receiveNumClientes;
     private javax.swing.JLabel receiveNumFuncionarios;
+    private javax.swing.JTable tabelaCarros;
     private javax.swing.JLabel txtData;
     private javax.swing.JLabel txtHora;
     private javax.swing.JLabel txtMenuCarros;
