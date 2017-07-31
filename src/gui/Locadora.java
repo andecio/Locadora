@@ -212,7 +212,10 @@ public class Locadora extends javax.swing.JFrame {
             conn.update("Locadora", "nFuncionarios", 0, 1);
             conn.update("Locadora", "nClientes", 0, 1);
             conn.update("Locadora", "carrosAlugados", 0, 1);
+
             conn.createTableCarros();
+            conn.createTableClientes();
+
             dispose();
             new Usuario().setVisible(true);
         }

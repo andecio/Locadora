@@ -6,15 +6,12 @@
 package gui;
 
 import java.awt.Color;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Vector;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumn;
 import locadora.ConectarDB;
 
 /**
@@ -68,22 +65,45 @@ public class Teste extends javax.swing.JFrame {
         //DefaultTableModel model = (DefaultTableModel) tabelaCarros.getModel();
         //Object[] linha = new Object[4];
         // model.addRow(linha);
-        atualizarLista();
+        atualizarListaCarros();
+        atualizarListaClientes();
+        //limparLista();
     }
-    
-    public void atualizarLista(){
+
+    public void limparLista(JTable tabela) {
+        DefaultTableModel model = (DefaultTableModel) tabela.getModel();
+        if (model.getRowCount() > 0) {
+            int tamanho = model.getRowCount();
+            for (int i = 0; i <= tamanho - 1; i++) {
+                model.removeRow(0);
+            }
+        }
+    }
+
+    public void atualizarListaCarros() {
         ConectarDB conn = new ConectarDB();
         DefaultTableModel model = (DefaultTableModel) tabelaCarros.getModel();
         Object[][] linha = conn.listaDeCarros();
-        System.out.println();
-        model.addRow(linha);
         Object[] b = new Object[4];
-        if(linha.length > 0){
-            for(int i = 0; i < linha.length; i++){
-                for(int e = 0; e < 4; e++){
-                    b[e] = linha[i][e];
-                }
-                System.out.println(linha[0][2]);
+        limparLista(tabelaCarros);
+        if (linha.length > 0) {
+            for (Object[] linha1 : linha) {
+                System.arraycopy(linha1, 0, b, 0, 4);
+                model.addRow(b);
+            }
+        }
+    }
+
+    public void atualizarListaClientes() {
+        ConectarDB conn = new ConectarDB();
+        DefaultTableModel model = (DefaultTableModel) tabelaClientes.getModel();
+        Object[][] linha = conn.listaDeClientes();
+        Object[] b = new Object[3];
+        limparLista(tabelaClientes);
+        if (linha.length > 0) {
+            for (Object[] linha1 : linha) {
+                System.arraycopy(linha1, 0, b, 0, 3);
+                model.addRow(b);
             }
         }
     }
@@ -115,7 +135,6 @@ public class Teste extends javax.swing.JFrame {
 
     ConectarDB db = new ConectarDB();
 
-    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -136,6 +155,15 @@ public class Teste extends javax.swing.JFrame {
         menuFuncionarios = new javax.swing.JPanel();
         txtMenuFuncionarios = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        conteudoClientes = new javax.swing.JPanel();
+        jPanel5 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tabelaClientes = new javax.swing.JTable();
+        btnNovoCliente = new javax.swing.JButton();
+        btnAlugarCarro = new javax.swing.JButton();
+        btnDevolverCarro = new javax.swing.JButton();
         conteudoCarros = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -144,6 +172,7 @@ public class Teste extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tabelaCarros = new javax.swing.JTable();
         jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         conteudoGeral = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -168,10 +197,6 @@ public class Teste extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jPanel8 = new javax.swing.JPanel();
-        conteudoClientes = new javax.swing.JPanel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        jPanel6 = new javax.swing.JPanel();
         menuFooter = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
@@ -181,6 +206,18 @@ public class Teste extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Locadora");
         setResizable(false);
+        addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                formFocusGained(evt);
+            }
+        });
+        addWindowFocusListener(new java.awt.event.WindowFocusListener() {
+            public void windowGainedFocus(java.awt.event.WindowEvent evt) {
+                formWindowGainedFocus(evt);
+            }
+            public void windowLostFocus(java.awt.event.WindowEvent evt) {
+            }
+        });
         getContentPane().setLayout(new java.awt.GridBagLayout());
 
         menuPanel.setBackground(new java.awt.Color(35, 40, 44));
@@ -297,8 +334,9 @@ public class Teste extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         menuPanel.add(menuClientes, gridBagConstraints);
 
-        menuFuncionarios.setBackground(new java.awt.Color(35, 40, 44));
+        menuFuncionarios.setBackground(new java.awt.Color(153, 153, 153));
         menuFuncionarios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menuFuncionarios.setEnabled(false);
         menuFuncionarios.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 menuFuncionariosMouseClicked(evt);
@@ -312,8 +350,9 @@ public class Teste extends javax.swing.JFrame {
         });
         menuFuncionarios.setLayout(new java.awt.GridBagLayout());
 
+        txtMenuFuncionarios.setBackground(new java.awt.Color(204, 204, 204));
         txtMenuFuncionarios.setFont(new java.awt.Font("Verdana", 1, 18)); // NOI18N
-        txtMenuFuncionarios.setForeground(new java.awt.Color(255, 255, 255));
+        txtMenuFuncionarios.setForeground(new java.awt.Color(102, 102, 102));
         txtMenuFuncionarios.setText("Funcionários");
         txtMenuFuncionarios.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -341,7 +380,139 @@ public class Teste extends javax.swing.JFrame {
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         getContentPane().add(menuPanel, gridBagConstraints);
 
+        conteudoClientes.setBackground(new java.awt.Color(241, 241, 241));
+        conteudoClientes.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                conteudoClientesComponentShown(evt);
+            }
+        });
+        conteudoClientes.setLayout(null);
+
+        jPanel5.setBackground(new java.awt.Color(241, 241, 241));
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
+        jLabel4.setText("Clientes");
+
+        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+
+        tabelaClientes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Nome", "CPF", "Alugando"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tabelaClientes.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(tabelaClientes);
+        if (tabelaClientes.getColumnModel().getColumnCount() > 0) {
+            tabelaClientes.getColumnModel().getColumn(0).setResizable(false);
+            tabelaClientes.getColumnModel().getColumn(1).setResizable(false);
+            tabelaClientes.getColumnModel().getColumn(2).setResizable(false);
+        }
+        tabelaClientes.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        btnNovoCliente.setText("Novo cliente");
+        btnNovoCliente.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNovoClienteActionPerformed(evt);
+            }
+        });
+
+        btnAlugarCarro.setText("Alugar carro");
+        btnAlugarCarro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAlugarCarroActionPerformed(evt);
+            }
+        });
+
+        btnDevolverCarro.setText("Devolver carro");
+        btnDevolverCarro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDevolverCarroActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(btnNovoCliente)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnAlugarCarro)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnDevolverCarro))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(58, Short.MAX_VALUE))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnNovoCliente)
+                    .addComponent(btnAlugarCarro)
+                    .addComponent(btnDevolverCarro))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(50, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel4))
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        conteudoClientes.add(jPanel5);
+        jPanel5.setBounds(0, 0, 500, 460);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridheight = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
+        gridBagConstraints.ipadx = 500;
+        gridBagConstraints.ipady = 300;
+        getContentPane().add(conteudoClientes, gridBagConstraints);
+
         conteudoCarros.setBackground(new java.awt.Color(241, 241, 241));
+        conteudoCarros.addComponentListener(new java.awt.event.ComponentAdapter() {
+            public void componentShown(java.awt.event.ComponentEvent evt) {
+                conteudoCarrosComponentShown(evt);
+            }
+        });
         conteudoCarros.setLayout(null);
 
         jPanel3.setBackground(new java.awt.Color(241, 241, 241));
@@ -363,11 +534,11 @@ public class Teste extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Placa", "Marca", "Modelo", "Alugado"
+                "Placa", "Marca", "Modelo", "Cliente"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false
@@ -385,12 +556,27 @@ public class Teste extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tabelaCarros);
         if (tabelaCarros.getColumnModel().getColumnCount() > 0) {
             tabelaCarros.getColumnModel().getColumn(0).setResizable(false);
+            tabelaCarros.getColumnModel().getColumn(0).setPreferredWidth(30);
             tabelaCarros.getColumnModel().getColumn(1).setResizable(false);
             tabelaCarros.getColumnModel().getColumn(2).setResizable(false);
             tabelaCarros.getColumnModel().getColumn(3).setResizable(false);
         }
+        tabelaCarros.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         jButton2.setText("Atualizar lista");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setText("Remover carro");
+        jButton3.setEnabled(false);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -403,6 +589,8 @@ public class Teste extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2)))
                 .addContainerGap(75, Short.MAX_VALUE))
         );
@@ -412,7 +600,8 @@ public class Teste extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButton2)
+                    .addComponent(jButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(126, Short.MAX_VALUE))
@@ -471,6 +660,7 @@ public class Teste extends javax.swing.JFrame {
         jLabel7.setText("Nº de carros:");
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(153, 153, 153));
         jLabel8.setText("Nº de funcionários:");
 
         jLabel9.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -541,6 +731,7 @@ public class Teste extends javax.swing.JFrame {
         receiveNumCarros.setText(db.getLocadoraData("nCarros"));
 
         receiveNumFuncionarios.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        receiveNumFuncionarios.setForeground(new java.awt.Color(153, 153, 153));
         receiveNumFuncionarios.setText("Null");
         receiveNumFuncionarios.setText(db.getLocadoraData("nFuncionarios"));
 
@@ -712,61 +903,10 @@ public class Teste extends javax.swing.JFrame {
         gridBagConstraints.ipady = 300;
         getContentPane().add(conteudoFuncionarios, gridBagConstraints);
 
-        conteudoClientes.setBackground(new java.awt.Color(241, 241, 241));
-        conteudoClientes.setLayout(null);
-
-        jPanel5.setBackground(new java.awt.Color(241, 241, 241));
-
-        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 20)); // NOI18N
-        jLabel4.setText("Clientes");
-
-        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 533, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 410, Short.MAX_VALUE)
-        );
-
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel4))
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(19, 19, 19)
-                .addComponent(jLabel4)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        conteudoClientes.add(jPanel5);
-        jPanel5.setBounds(0, 0, 500, 460);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridheight = 2;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.ipadx = 500;
-        gridBagConstraints.ipady = 300;
-        getContentPane().add(conteudoClientes, gridBagConstraints);
-
         menuFooter.setBackground(new java.awt.Color(58, 58, 58));
 
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel12.setText("Desenvoldio por:");
+        jLabel12.setText("Desenvolvido por:");
 
         jLabel13.setForeground(new java.awt.Color(255, 255, 255));
         jLabel13.setText("Lavyk Soares");
@@ -864,28 +1004,6 @@ public class Teste extends javax.swing.JFrame {
         conteudoClientes.setVisible(true);
     }//GEN-LAST:event_menuClientesMouseClicked
 
-    private void menuFuncionariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuFuncionariosMouseClicked
-        falseAll();
-        menuFuncionarios.setBackground(new Color(0x0073aa));
-        txtMenuFuncionarios.setForeground(new Color(0xffffff));
-        clicked4 = true;
-        conteudoFuncionarios.setVisible(true);
-    }//GEN-LAST:event_menuFuncionariosMouseClicked
-
-    private void menuFuncionariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuFuncionariosMouseEntered
-        if (!clicked4) {
-            menuFuncionarios.setBackground(new Color(25, 30, 35));
-            txtMenuFuncionarios.setForeground(new Color(0x00b9eb));
-        }
-    }//GEN-LAST:event_menuFuncionariosMouseEntered
-
-    private void menuFuncionariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuFuncionariosMouseExited
-        if (!clicked4) {
-            menuFuncionarios.setBackground(new Color(0x23282d));
-            txtMenuFuncionarios.setForeground(new Color(0xffffff));
-        }// TODO add your handling code here:
-    }//GEN-LAST:event_menuFuncionariosMouseExited
-
     private void menuGeralMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuGeralMouseClicked
         falseAll();
         menuGeral.setBackground(new Color(0x0073aa));
@@ -960,6 +1078,107 @@ public class Teste extends javax.swing.JFrame {
         porcentagemAlugados.setText(p + "% alugados");
     }//GEN-LAST:event_conteudoGeralComponentShown
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        atualizarListaCarros();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void formFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_formFocusGained
+        atualizarListaCarros();
+        atualizarListaClientes();
+    }//GEN-LAST:event_formFocusGained
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        int carro = tabelaCarros.getSelectedRow();
+        String placa = tabelaCarros.getValueAt(carro, 0).toString();
+        System.out.println(placa);
+        ConectarDB conn = new ConectarDB();
+        conn.delete("Carros", "placa", placa);
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void menuFuncionariosMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuFuncionariosMouseExited
+        /*
+        if (!clicked4) {
+            menuFuncionarios.setBackground(new Color(0x23282d));
+            txtMenuFuncionarios.setForeground(new Color(0xffffff));
+        }
+         */
+    }//GEN-LAST:event_menuFuncionariosMouseExited
+
+    private void menuFuncionariosMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuFuncionariosMouseEntered
+        /*
+        if (!clicked4) {
+            menuFuncionarios.setBackground(new Color(25, 30, 35));
+            txtMenuFuncionarios.setForeground(new Color(0x00b9eb));
+        }
+         */
+    }//GEN-LAST:event_menuFuncionariosMouseEntered
+
+    private void menuFuncionariosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_menuFuncionariosMouseClicked
+        /*
+        falseAll();
+        menuFuncionarios.setBackground(new Color(0x0073aa));
+        txtMenuFuncionarios.setForeground(new Color(0xffffff));
+        clicked4 = true;
+        conteudoFuncionarios.setVisible(true);
+         */
+    }//GEN-LAST:event_menuFuncionariosMouseClicked
+
+    private void btnNovoClienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNovoClienteActionPerformed
+        new CriarCliente().setVisible(true);
+    }//GEN-LAST:event_btnNovoClienteActionPerformed
+
+    private void btnDevolverCarroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDevolverCarroActionPerformed
+        int cliente = tabelaClientes.getSelectedRow();
+
+        if (cliente != -1) {
+            DefaultTableModel tabelaClientesModel = (DefaultTableModel) tabelaClientes.getModel();
+            String alugando = tabelaClientesModel.getValueAt(cliente, 2).toString();
+            String clienteNome = tabelaClientesModel.getValueAt(cliente, 0).toString();
+            if (alugando.equals("null")) {
+                JOptionPane.showMessageDialog(null, clienteNome + " não está com um carro alugado. \nSelecione outro cliente!");
+            } else {
+                new ConectarDB().setCarroAlugando(clienteNome, alugando, false);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, selecione um cliente!");
+        }
+    }//GEN-LAST:event_btnDevolverCarroActionPerformed
+
+    private void formWindowGainedFocus(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowGainedFocus
+        this.atualizarListaCarros();
+        this.atualizarListaClientes();
+    }//GEN-LAST:event_formWindowGainedFocus
+
+    private void conteudoCarrosComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_conteudoCarrosComponentShown
+        this.atualizarListaCarros();
+    }//GEN-LAST:event_conteudoCarrosComponentShown
+
+    private void conteudoClientesComponentShown(java.awt.event.ComponentEvent evt) {//GEN-FIRST:event_conteudoClientesComponentShown
+        this.atualizarListaClientes();
+    }//GEN-LAST:event_conteudoClientesComponentShown
+
+    private void btnAlugarCarroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAlugarCarroActionPerformed
+        int cliente = tabelaClientes.getSelectedRow();
+
+        if (cliente != -1) {
+            DefaultTableModel tabelaClientesModel = (DefaultTableModel) tabelaClientes.getModel();
+            String alugando = tabelaClientesModel.getValueAt(cliente, 2).toString();
+            String clienteNome = tabelaClientesModel.getValueAt(cliente, 0).toString();
+            if (!alugando.equals("null")) {
+                JOptionPane.showMessageDialog(null, clienteNome + " já está com um carro alugado.\nSelecione outro cliente!");
+            } else {
+                String clienteCPF = tabelaClientesModel.getValueAt(cliente, 1).toString();
+                AlugarCarro alugarCarro = new AlugarCarro();
+                alugarCarro.setNome(clienteNome);
+                alugarCarro.setCPF(clienteCPF);
+                alugarCarro.setVisible(true);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor, selecione um cliente!");
+        }
+    }//GEN-LAST:event_btnAlugarCarroActionPerformed
+
     public void falseAll() {
         menuGeral.setBackground(new Color(0x23282d));
         txtMenuGeral.setForeground(new Color(0xffffff));
@@ -970,9 +1189,8 @@ public class Teste extends javax.swing.JFrame {
         menuClientes.setBackground(new Color(0x23282d));
         txtMenuClientes.setForeground(new Color(0xffffff));
 
-        menuFuncionarios.setBackground(new Color(0x23282d));
-        txtMenuFuncionarios.setForeground(new Color(0xffffff));
-
+        // menuFuncionarios.setBackground(new Color(0x23282d));
+        // txtMenuFuncionarios.setForeground(new Color(0xffffff));
         conteudoGeral.setVisible(false);
         conteudoCarros.setVisible(false);
         conteudoClientes.setVisible(false);
@@ -1020,12 +1238,16 @@ public class Teste extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JProgressBar alugadosBar;
+    private javax.swing.JButton btnAlugarCarro;
+    private javax.swing.JButton btnDevolverCarro;
+    private javax.swing.JButton btnNovoCliente;
     private javax.swing.JPanel conteudoCarros;
     private javax.swing.JPanel conteudoClientes;
     private javax.swing.JPanel conteudoFuncionarios;
     private javax.swing.JPanel conteudoGeral;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -1051,6 +1273,7 @@ public class Teste extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JPanel menuCarros;
     private javax.swing.JPanel menuClientes;
     private javax.swing.JPanel menuFooter;
@@ -1064,6 +1287,7 @@ public class Teste extends javax.swing.JFrame {
     private javax.swing.JLabel receiveNumClientes;
     private javax.swing.JLabel receiveNumFuncionarios;
     private javax.swing.JTable tabelaCarros;
+    private javax.swing.JTable tabelaClientes;
     private javax.swing.JLabel txtData;
     private javax.swing.JLabel txtHora;
     private javax.swing.JLabel txtMenuCarros;

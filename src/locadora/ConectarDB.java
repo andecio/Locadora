@@ -1,6 +1,7 @@
 package locadora;
 
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 public class ConectarDB {
 
@@ -66,6 +67,18 @@ public class ConectarDB {
 
     public void createTableCarros() {
         String sql = "CREATE TABLE Carros (id INTEGER PRIMARY KEY AUTOINCREMENT, placa TEXT, marca TEXT, modelo TEXT, alugado boolean)";
+        try (Connection conn = this.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void createTableClientes() {
+        String sql = "CREATE TABLE Carros (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT, cpf TEXT, alugando TEXT)";
         try (Connection conn = this.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -167,8 +180,6 @@ public class ConectarDB {
         }
 
     }
-    
-    
 
     public void insert(String tabela, String row, String data) {
         String sql = "INSERT INTO '" + tabela + "' (" + row + ") VALUES ( ? )";
@@ -251,9 +262,49 @@ public class ConectarDB {
         }
         return 0;
     }
-    
+
+    public int getNumClientes() {
+        String sql = "SELECT nClientes FROM Locadora;";
+
+        try (Connection conn = this.connect();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+
+            // loop through the result set
+            int a = 0;
+            while (rs.next()) {
+                a = rs.getInt("nClientes");
+            }
+
+            return a;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
+    public int getCarrosAlugados() {
+        String sql = "SELECT carrosAlugados FROM Locadora;";
+
+        try (Connection conn = this.connect();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+
+            int a = 0;
+            while (rs.next()) {
+                a = rs.getInt("carrosAlugados");
+            }
+            return a;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
     public Object[][] listaDeCarros() {
-        String sql = "SELECT * FROM Carros";
+        String sql = "SELECT * FROM Carros ORDER BY marca";
         Object[][] lista = null;
 
         try (Connection conn = this.connect();
@@ -264,15 +315,17 @@ public class ConectarDB {
             String a = null;
             int tamanho = this.ultimoID("Carros");
             lista = new Object[tamanho][];
-            Object[] apoio = new Object[4];
+            int cont = 0;
             while (rs.next()) {
+                Object[] apoio = new Object[4];
                 apoio[0] = rs.getString("placa");
                 apoio[1] = rs.getString("marca");
                 apoio[2] = rs.getString("modelo");
                 apoio[3] = rs.getString("alugado");
-                lista[rs.getInt("id")-1] = apoio;
+                lista[cont] = apoio;
+                cont++;
+
             }
-            
             return lista;
 
         } catch (SQLException e) {
@@ -280,4 +333,164 @@ public class ConectarDB {
         }
         return lista;
     }
+
+    public Object[][] listaDeClientes() {
+        String sql = "SELECT * FROM Clientes ORDER BY nome";
+        Object[][] lista = null;
+
+        try (Connection conn = this.connect();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+
+            // loop through the result set
+            String a = null;
+            int tamanho = this.ultimoID("Clientes");
+            lista = new Object[tamanho][];
+            int cont = 0;
+            while (rs.next()) {
+                Object[] apoio = new Object[3];
+                apoio[0] = rs.getString("nome");
+                apoio[1] = rs.getString("cpf");
+                apoio[2] = rs.getString("alugando");
+                // lista[rs.getInt("id") - 1] = apoio;
+                lista[cont] = apoio;
+                cont++;
+            }
+            return lista;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return lista;
+    }
+
+    public void delete(String tabela, String row, String data) {
+
+        String sql = "DELETE from '" + tabela + "' where " + row + " = '" + data + "';";
+        try (
+                Connection conn = this.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public String[] gerarPlacas() throws SQLException {
+        int tamanho = this.ultimoID("Carros");
+        // String[] placas = new String[tamanho];
+
+        String sql = "SELECT * FROM Carros WHERE alugado = 'false' ORDER BY placa";
+        int cont = 0;
+        try (Connection conn = this.connect();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+
+            while (rs.next()) {
+                cont++;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        if (cont == 0) {
+            JOptionPane.showMessageDialog(null, "Todos os carros já foram alugados.");
+        }
+        String[] placas = new String[cont + 1];
+
+        try (Connection conn = this.connect();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+            String a = null;
+            placas[0] = "";
+            cont = 1;
+            while (rs.next()) {
+                placas[cont] = rs.getString("placa");
+                cont++;
+            }
+
+            return placas;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public String getCarroData(String row, String placa) {
+        // String sql = "SELECT * FROM 'Carros' WHERE " + row + " = '" + placa + "';";
+        String sql = "SELECT * FROM 'Carros' WHERE placa = '" + placa + "';";
+
+        try (Connection conn = this.connect();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+
+            // loop through the result set
+            String a = null;
+            while (rs.next()) {
+                a = rs.getString(row);
+            }
+
+            return a;
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return null;
+    }
+
+    public void setClienteAlugando(String placa, String nome) {
+        String sql = "UPDATE 'Clientes' SET alugando = '" + placa + "' WHERE nome = '" + nome + "';";
+
+        try (
+                Connection conn = this.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void setCarroAlugando(String nome, String placa, boolean stats) {
+        String sql, sql2;
+
+        int numCarrosAlugados = this.getCarrosAlugados();
+        if (stats) {
+            sql = "UPDATE 'Carros' SET alugado = '" + nome + "' WHERE placa = '" + placa + "';";
+            sql2 = "UPDATE 'Clientes' SET alugando = '" + placa + "' WHERE nome = '" + nome + "';";
+
+            this.update("Locadora", "carrosAlugados", numCarrosAlugados + 1, 1);
+        } else {
+            sql = "UPDATE 'Carros' SET alugado = 'false' WHERE placa = '" + placa + "';";
+            sql2 = "UPDATE 'Clientes' SET alugando = 'null' WHERE nome = '" + nome + "';";
+            this.update("Locadora", "carrosAlugados", numCarrosAlugados - 1, 1);
+            JOptionPane.showMessageDialog(null, "Carro devolvido com sucesso!");
+
+        }
+
+        try (
+                Connection conn = this.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        try (
+                Connection conn = this.connect();
+                PreparedStatement pstmt = conn.prepareStatement(sql2)) {
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
 }
