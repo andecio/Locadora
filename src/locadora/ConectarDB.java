@@ -1,5 +1,6 @@
 package locadora;
 
+import gui.Teste;
 import java.sql.*;
 import javax.swing.JOptionPane;
 
@@ -78,7 +79,7 @@ public class ConectarDB {
     }
 
     public void createTableClientes() {
-        String sql = "CREATE TABLE Carros (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT, cpf TEXT, alugando TEXT)";
+        String sql = "CREATE TABLE Clientes (id INTEGER PRIMARY KEY AUTOINCREMENT, nome TEXT, cpf TEXT, alugando TEXT)";
         try (Connection conn = this.connect();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
@@ -491,6 +492,36 @@ public class ConectarDB {
             System.out.println(e.getMessage());
         }
 
+    }
+
+    public boolean verificarLogin(String login, String senha) throws SQLException {
+        boolean logado;
+
+        String sql = "SELECT * FROM Users";
+        try (Connection conn = this.connect();
+                Statement stmt = conn.createStatement();
+                ResultSet rs = stmt.executeQuery(sql)) {
+
+            String loginUser = null;
+            String senhaUser = null;
+            while (rs.next()) {
+                loginUser = rs.getString("nome");
+                senhaUser = rs.getString("senha");
+            }
+
+            if (login.equals(loginUser)) {
+                if (senha.equals(senhaUser)) {
+                    return true;
+                } else {
+                    JOptionPane.showMessageDialog(null, "Senha incorreto!");
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Usuário incorreto!");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
 
 }

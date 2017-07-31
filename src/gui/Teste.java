@@ -26,6 +26,7 @@ public class Teste extends javax.swing.JFrame {
     boolean clicked1, clicked2, clicked3, clicked4;
 
     public Teste() {
+
         String numCarros_str = db.getLocadoraData("nCarros");
         String carrosAlugados_str = db.getLocadoraData("carrosAlugados");
 
@@ -40,6 +41,8 @@ public class Teste extends javax.swing.JFrame {
         }
         initComponents();
         falseAll();
+
+        this.mudarCorBar(p);
 
         new Thread() {
             @Override
@@ -68,6 +71,20 @@ public class Teste extends javax.swing.JFrame {
         atualizarListaCarros();
         atualizarListaClientes();
         //limparLista();
+    }
+
+    public void mudarCorBar(int porct) {
+        int vermelho = (int) (2.55 * porct);
+        int verde;
+        if (porct <= 30) {
+            verde = 255;
+        } else if (porct <= 66) {
+            verde = 85;
+        } else {
+            verde = 0;
+        }
+        Color cor = new java.awt.Color(vermelho, verde, 0);
+        alugadosBar.setForeground(cor);
     }
 
     public void limparLista(JTable tabela) {
@@ -164,6 +181,7 @@ public class Teste extends javax.swing.JFrame {
         btnNovoCliente = new javax.swing.JButton();
         btnAlugarCarro = new javax.swing.JButton();
         btnDevolverCarro = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         conteudoCarros = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
@@ -204,7 +222,7 @@ public class Teste extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Locadora");
+        setTitle(db.getLocadoraData("nome"));
         setResizable(false);
         addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -448,31 +466,37 @@ public class Teste extends javax.swing.JFrame {
             }
         });
 
+        jButton4.setText("Procurar");
+        jButton4.setEnabled(false);
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(26, 26, 26)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel6Layout.createSequentialGroup()
                         .addComponent(btnNovoCliente)
                         .addGap(18, 18, 18)
                         .addComponent(btnAlugarCarro)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnDevolverCarro))
+                        .addComponent(btnDevolverCarro)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(58, Short.MAX_VALUE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel6Layout.createSequentialGroup()
-                .addGap(5, 5, 5)
+                .addGap(12, 12, 12)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnNovoCliente)
                     .addComponent(btnAlugarCarro)
-                    .addComponent(btnDevolverCarro))
-                .addGap(18, 18, 18)
+                    .addComponent(btnDevolverCarro)
+                    .addComponent(jButton4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 314, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(50, Short.MAX_VALUE))
         );
@@ -563,7 +587,8 @@ public class Teste extends javax.swing.JFrame {
         }
         tabelaCarros.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        jButton2.setText("Atualizar lista");
+        jButton2.setText("Procurar");
+        jButton2.setEnabled(false);
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -583,7 +608,7 @@ public class Teste extends javax.swing.JFrame {
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addGap(26, 26, 26)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -592,7 +617,7 @@ public class Teste extends javax.swing.JFrame {
                         .addComponent(jButton3)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jButton2)))
-                .addContainerGap(75, Short.MAX_VALUE))
+                .addContainerGap(71, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -674,6 +699,7 @@ public class Teste extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
         jLabel11.setText("Frota");
 
+        alugadosBar.setForeground(new java.awt.Color(255, 102, 102));
         alugadosBar.setValue(30);
         String numCarros_str = db.getLocadoraData("nCarros");
         String carrosAlugados_str = db.getLocadoraData("carrosAlugados");
@@ -796,9 +822,9 @@ public class Teste extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(receiveNumAlugados))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 104, Short.MAX_VALUE)
+                .addGap(72, 72, 72)
                 .addComponent(jPanel9, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44))
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         txtData.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -1074,6 +1100,7 @@ public class Teste extends javax.swing.JFrame {
             p = 0;
         }
 
+        this.mudarCorBar(p);
         alugadosBar.setValue(p);
         porcentagemAlugados.setText(p + "% alugados");
     }//GEN-LAST:event_conteudoGeralComponentShown
@@ -1248,6 +1275,7 @@ public class Teste extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;

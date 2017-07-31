@@ -6,8 +6,12 @@
 package gui;
 
 import java.awt.Color;
+import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import locadora.ConectarDB;
 
 /**
  *
@@ -55,6 +59,7 @@ public class Login extends javax.swing.JFrame {
         java.awt.GridBagConstraints gridBagConstraints;
 
         jPanel3 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
         panelTitulo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         panelForm = new javax.swing.JPanel();
@@ -63,19 +68,25 @@ public class Login extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         passForm = new javax.swing.JPasswordField();
         panelBotoes = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Criar usuário");
+        setTitle("Login");
         setUndecorated(true);
         setResizable(false);
 
-        jPanel3.setBackground(new java.awt.Color(35, 40, 45));
+        jPanel3.setBackground(new java.awt.Color(102, 102, 102));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0), 5));
-        jPanel3.setLayout(new java.awt.GridBagLayout());
+        jPanel3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jLabel1.setFont(new java.awt.Font("Ubuntu", 1, 18)); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon("C:\\Users\\Super i3\\Documents\\NetBeansProjects\\ProjetoLAB2\\imgs\\verification.png")); // NOI18N
+        jPanel3.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
+
+        panelTitulo.setBackground(new java.awt.Color(102, 153, 255));
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Login");
 
         javax.swing.GroupLayout panelTituloLayout = new javax.swing.GroupLayout(panelTitulo);
@@ -83,27 +94,21 @@ public class Login extends javax.swing.JFrame {
         panelTituloLayout.setHorizontalGroup(
             panelTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTituloLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(95, 95, 95)
                 .addComponent(jLabel1)
-                .addContainerGap(169, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
         panelTituloLayout.setVerticalGroup(
             panelTituloLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelTituloLayout.createSequentialGroup()
-                .addGap(12, 12, 12)
-                .addComponent(jLabel1))
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.ipady = 15;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(10, 0, 0, 0);
-        jPanel3.add(panelTitulo, gridBagConstraints);
+        jPanel3.add(panelTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 20, 250, 40));
 
-        panelForm.setBackground(new java.awt.Color(35, 40, 45));
+        panelForm.setBackground(new java.awt.Color(102, 102, 102));
         panelForm.setLayout(new java.awt.GridBagLayout());
 
         jLabel2.setFont(new java.awt.Font("Ubuntu", 1, 15)); // NOI18N
@@ -152,56 +157,43 @@ public class Login extends javax.swing.JFrame {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         panelForm.add(passForm, gridBagConstraints);
 
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 1;
-        gridBagConstraints.insets = new java.awt.Insets(10, 20, 5, 20);
-        jPanel3.add(panelForm, gridBagConstraints);
+        jPanel3.add(panelForm, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 100, -1, -1));
 
         panelBotoes.setBackground(new java.awt.Color(30, 40, 45));
         panelBotoes.setLayout(new java.awt.GridBagLayout());
+        jPanel3.add(panelBotoes, new org.netbeans.lib.awtextra.AbsoluteConstraints(83, 211, -1, -1));
 
-        jButton1.setText("Login");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        jLabel8.setIcon(new javax.swing.ImageIcon("C:\\Users\\Super i3\\Documents\\NetBeansProjects\\ProjetoLAB2\\imgs\\close.png")); // NOI18N
+        jLabel8.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel8MouseClicked(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        panelBotoes.add(jButton1, gridBagConstraints);
+        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, -1, -1));
 
-        jButton2.setText("Cancelar");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+        jLabel9.setIcon(new javax.swing.ImageIcon("C:\\Users\\Super i3\\Documents\\NetBeansProjects\\ProjetoLAB2\\imgs\\confirm.png")); // NOI18N
+        jLabel9.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel9MouseClicked(evt);
             }
         });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 10, 0, 0);
-        panelBotoes.add(jButton2, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.EAST;
-        gridBagConstraints.insets = new java.awt.Insets(0, 0, 20, 20);
-        jPanel3.add(panelBotoes, gridBagConstraints);
+        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -217,17 +209,22 @@ public class Login extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNomeFocusGained
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        System.exit(0);
-    }//GEN-LAST:event_jButton2ActionPerformed
+    private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
+        dispose();
+    }//GEN-LAST:event_jLabel8MouseClicked
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
         String nome = txtNome.getText();
-        char[] pass = passForm.getPassword();
-        
-        
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+        String pass = passForm.getText();
+        try {
+            if (new ConectarDB().verificarLogin(nome, pass)) {
+                dispose();
+                new Teste().setVisible(true);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }//GEN-LAST:event_jLabel9MouseClicked
 
     public boolean verificarNome() {
         String nome = txtNome.getText();
@@ -276,11 +273,12 @@ public class Login extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel panelBotoes;
     private javax.swing.JPanel panelForm;
