@@ -83,6 +83,7 @@ public class Teste extends javax.swing.JFrame {
         } else {
             verde = 0;
         }
+
         Color cor = new java.awt.Color(vermelho, verde, 0);
         alugadosBar.setForeground(cor);
     }
